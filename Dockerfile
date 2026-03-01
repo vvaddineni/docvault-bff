@@ -1,13 +1,11 @@
 FROM node:20-alpine
 WORKDIR /app
 
-# Install dependencies first (layer cache)
-COPY package*.json ./
-RUN npm ci --only=production --silent
+COPY package.json ./
+RUN npm install --only=production --silent
 
 COPY src/ ./src/
 
-# Non-root user for security
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 
