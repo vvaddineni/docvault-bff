@@ -62,7 +62,7 @@ router.post('/upload', upload.single('file'), asyncH(async (req, res) => {
     contentType: req.file.mimetype,
     knownLength: req.file.size,
   });
-  form.append('metadata', req.body.metadata || '{}');
+  form.append('metadata', req.body.metadata || '{}', { contentType: 'application/json' });
 
   const data = await apim.upload('/documents/v1/documents', form, req.correlationId);
   res.status(201).json(data);

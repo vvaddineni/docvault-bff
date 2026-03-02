@@ -43,3 +43,12 @@ jobs:
           registryUrl: ghcr.io
           registryUsername: ${{ github.actor }}
           registryPassword: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Set service URLs on BFF Container App
+        run: |
+          az containerapp update \
+            --name docvault-bff \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --set-env-vars \
+              DOCUMENT_SERVICE_URL=${{ secrets.DOCUMENT_SERVICE_URL }} \
+              SEARCH_SERVICE_URL=${{ secrets.SEARCH_SERVICE_URL }}
