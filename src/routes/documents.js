@@ -43,6 +43,13 @@ router.get('/stats', asyncH(async (req, res) => {
   res.json(data);
 }));
 
+// ── POST /api/documents/reindex — bulk re-index into Azure AI Search ─────
+router.post('/reindex', asyncH(async (req, res) => {
+  logger.info(`[Documents] Reindex all [${req.correlationId}]`);
+  const data = await apim.post('/documents/v1/documents/reindex', {}, req.correlationId);
+  res.status(202).json(data);
+}));
+
 // ── GET /api/documents/:id — single document metadata ────────────────────
 router.get('/:id', asyncH(async (req, res) => {
   const data = await apim.get(`/documents/v1/documents/${req.params.id}`, {}, req.correlationId);
