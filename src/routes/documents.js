@@ -51,6 +51,13 @@ router.post('/reindex', asyncH(async (req, res) => {
   res.status(202).json(data);
 }));
 
+// ── POST /api/documents/migrate — manual Hot→Cool migration trigger ───────
+router.post('/migrate', asyncH(async (req, res) => {
+  logger.info(`[Documents] Manual migration trigger [${req.correlationId}]`);
+  const data = await apim.post('/documents/v1/documents/migrate', {}, req.correlationId);
+  res.status(202).json(data);
+}));
+
 // ── GET /api/documents/search — standard metadata search (Cosmos DB) ─────
 router.get('/search', asyncH(async (req, res) => {
   const { q = '', page = 1, limit = 25 } = req.query;
